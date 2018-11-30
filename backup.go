@@ -1,6 +1,7 @@
 package gackup
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -9,14 +10,34 @@ import (
 	"github.com/richardwilkes/toolbox/errs"
 )
 
+func LoadFileList() ([]string, error) {
+	f, err := os.Open(os.ExpandEnv("$HOME/.gackup"))
+	if err != nil {
+		return nil, errs.Wrap(err)
+	}
+	var files []string
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		t := scanner.Text()
+		if !strings.HasPrefix("#", t) {
+			files = append(files, t)
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		return nil, errs.Wrap(err)
+	}
+
+	return files, nil
+}
+
 type Config struct {
-	BaseDir, ConfigDir              string
+	BaseDir, BackupDir              string
 	ForceRelink, Verbose, ShowSkips bool
 }
 
 var DefaultConfig = &Config{
 	BaseDir:   os.Getenv("HOME"),
-	ConfigDir: "Documents/config",
+	BackupDir: "Documents/config",
 }
 
 func (c *Config) Check() error {
@@ -24,7 +45,7 @@ func (c *Config) Check() error {
 	if c.BaseDir == "" {
 		err = errs.Append(errs.New("BaseDir must not be empty"))
 	}
-	if c.ConfigDir == "" {
+	if c.BackupDir == "" {
 		err = errs.Append(errs.New("ConfigDig must not be empty"))
 	}
 	return err
@@ -44,7 +65,7 @@ func New(files []string, c *Config) (*Backup, error) {
 	b.config = c
 
 	for _, fn := range files {
-		fd, err := NewFileDetails(fn, b.config.BaseDir, b.config.ConfigDir)
+		fd, err := NewFileDetails(fn, b.config.BaseDir, b.config.BackupDir)
 		if err != nil {
 			return nil, errs.Wrap(err)
 		}
