@@ -31,21 +31,21 @@ func LoadFileList() ([]string, error) {
 }
 
 type Config struct {
-	BaseDir, BackupDir              string
+	SourceDir, TargetDir            string
 	ForceRelink, Verbose, ShowSkips bool
 }
 
 var DefaultConfig = &Config{
-	BaseDir:   os.Getenv("HOME"),
-	BackupDir: "Documents/config",
+	SourceDir: os.Getenv("HOME"),
+	TargetDir: "Documents/config",
 }
 
 func (c *Config) Check() error {
 	var err error
-	if c.BaseDir == "" {
+	if c.SourceDir == "" {
 		err = errs.Append(errs.New("BaseDir must not be empty"))
 	}
-	if c.BackupDir == "" {
+	if c.TargetDir == "" {
 		err = errs.Append(errs.New("ConfigDig must not be empty"))
 	}
 	return err
@@ -65,7 +65,7 @@ func New(files []string, c *Config) (*Backup, error) {
 	b.config = c
 
 	for _, fn := range files {
-		fd, err := NewFileDetails(fn, b.config.BaseDir, b.config.BackupDir)
+		fd, err := NewFileDetails(fn, b.config.SourceDir, b.config.TargetDir)
 		if err != nil {
 			return nil, errs.Wrap(err)
 		}

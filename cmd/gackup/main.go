@@ -13,8 +13,8 @@ import (
 func main() {
 	config := gackup.DefaultConfig
 
-	flag.StringVar(&config.BaseDir, "base", config.BaseDir, "Set source directory")
-	flag.StringVar(&config.BackupDir, "backupDir", config.BackupDir, "Set directory to store synced files in")
+	flag.StringVar(&config.SourceDir, "source", config.SourceDir, "Set source directory")
+	flag.StringVar(&config.TargetDir, "target", config.TargetDir, "Set directory to store synced files in")
 	flag.BoolVar(&config.Verbose, "verbose", config.Verbose, "")
 	flag.BoolVar(&config.ForceRelink, "relink", config.ForceRelink, "Force re-linking of all files")
 	flag.Parse()

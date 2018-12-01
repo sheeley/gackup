@@ -6,6 +6,7 @@ Mackup-like go tool to provide basic file move/linking.
 Create `~/.gackup` with contents like:
 
 ```
+.gackup
 .mongorc.js
 .gitident-work
 .zshrc
@@ -30,18 +31,21 @@ Library/Application Support/Code/User/settings.json
 
 Run
 ```
-go get github.com/sheeley/gackup/...
-gackup
-```
+> go get github.com/sheeley/gackup/...
+> gackup -h
+Usage of gackup:
+  -relink
+    	Force re-linking of all files
+  -source string
+    	Set source directory (default "$HOME")
+  -target string
+    	Set directory to store synced files in (default "Documents/config")
+  -verbose
+> gackup
+MOVE: /Users/sheeley/.gackup -> /Users/sheeley/Documents/config/.gackup
+LINK: /Users/sheeley/.gackup -> /Users/sheeley/Documents/config/.gackup
+LINK: /Users/sheeley/Library/Preferences/com.surteesstudios.Bartender.plist -> /Users/sheeley/Documents/config/Library/Preferences/com.surteesstudios.Bartender.plist
+LINK: /Users/sheeley/Library/Preferences/info.marcel-dierkes.KeepingYouAwake.plist -> /Users/sheeley/Documents/config/Library/Preferences/info.marcel-dierkes.KeepingYouAwake.plist
 
-## Options
-
-```
--base string
-    	Set base directory (default "$HOME")
--configDir string
-    Set directory to store synced files in (default "Documents/config")
--relink
-    Force re-linking of all files
--verbose
+Confirm [y/N]:y
 ```
