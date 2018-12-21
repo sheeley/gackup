@@ -10,10 +10,19 @@ import (
 	"github.com/richardwilkes/toolbox/errs"
 )
 
-func LoadFileList() ([]string, error) {
-	f, err := os.Open(os.ExpandEnv("$HOME/.gackup"))
+const ConfigFile = ".gackup"
+
+func LoadFileList(c *Config) ([]string, error) {
+	f, err := os.Open(filepath.Join(os.ExpandEnv("$HOME"), ConfigFile))
 	if err != nil {
-		return nil, errs.Wrap(err)
+		if !os.IsNotExist(err) {
+			return nil, errs.Wrap(err)
+		}
+
+		f, err = os.Open(filepath.Join(os.ExpandEnv("$HOME"), c.TargetDir, ConfigFile))
+		if err != nil {
+			return nil, errs.Wrap(err)
+		}
 	}
 	var files []string
 	scanner := bufio.NewScanner(f)

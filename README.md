@@ -1,12 +1,13 @@
 # gackup
 Mackup-like go tool to provide basic file move/linking.
 
-## Usage
+## Configuration file
+
+Loads from `~/.gackup` or `$HOME/{target dir}/.gackup`
 
 Create `~/.gackup` with contents like:
 
 ```
-.gackup
 .mongorc.js
 .gitident-work
 .zshrc
@@ -28,6 +29,8 @@ Library/Preferences/com.apple.symbolichotkeys.plist
 Library/Preferences/org.shiftitapp.ShiftIt.plist
 Library/Application Support/Code/User/settings.json
 ```
+
+## Usage
 
 Run
 ```

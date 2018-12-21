@@ -23,7 +23,7 @@ func main() {
 		fmt.Printf("%+v\n", config)
 	}
 
-	files, err := gackup.LoadFileList()
+	files, err := gackup.LoadFileList(config)
 	if err != nil {
 		panic(err)
 	}
