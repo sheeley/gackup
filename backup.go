@@ -28,7 +28,7 @@ func LoadFileList(c *Config) ([]string, error) {
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		t := scanner.Text()
-		if !strings.HasPrefix("#", t) {
+		if !strings.HasPrefix(t, "#") {
 			files = append(files, t)
 		}
 	}
@@ -107,7 +107,7 @@ func (b *Backup) do(doActions, showActions bool) (string, error) {
 
 		a := fd.Action()
 		if b.config.Verbose {
-			o.WriteString(a.String() + " " + fd.source + "\n")
+			o.WriteString(fd.source + "\t" + a.String() + "\n")
 		}
 		if a == ActionSkip {
 			if !b.config.ForceRelink {

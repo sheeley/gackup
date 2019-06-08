@@ -42,7 +42,7 @@ const (
 func (f FileAction) String() string {
 	switch f {
 	case ActionSkip:
-		return "Nothing"
+		return "already linked, skipping"
 	case ActionCopyAndLink:
 		return "copy and link"
 	case ActionLink:
